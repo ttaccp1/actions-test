@@ -22,11 +22,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
             type=sha
-
-      - name: Print tags
-        run: echo "Tags: ${{ steps.meta.outputs.tags }}"
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
