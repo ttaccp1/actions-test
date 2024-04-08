@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  web-app:
+    image: ttaccp/actions-test:latest
+    ports:
+      - '3222:3200'
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    command: --interval 30
