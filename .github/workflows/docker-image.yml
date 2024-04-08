@@ -37,6 +37,8 @@ jobs:
         push: true
         # tags: ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
         # tags: $(date +%s)
+        tags: |
+          ${{ steps.meta.outputs.tags }}
 
   # deploy-to-k8s:
   #   needs: build-and-push
