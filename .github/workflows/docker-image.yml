@@ -22,6 +22,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
+            type=ref,event=branch
             type=sha
 
       - name: Login to DockerHub
