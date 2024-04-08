@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Docker meta
       id: meta
@@ -31,7 +31,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Build and push Docker image
-      uses: docker/build-push-action@v2.7.0
+      uses: docker/build-push-action@v5
       with:
         context: .
         push: true
