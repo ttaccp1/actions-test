@@ -36,7 +36,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ secrets.DOCKER_HUB_USERNAME}}/{docker_repository}:latest
+            ${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
   # deploy-to-k8s:
