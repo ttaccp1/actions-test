@@ -6,7 +6,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 app.get('/*', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!1')
 })
 
 const port = 3200
