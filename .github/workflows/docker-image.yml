@@ -50,6 +50,7 @@ jobs:
           target: "${{ env.FORT_SERVER_WWW_DIR }}"
 
   untar-and-reload:
+    needs: build-and-scp
     runs-on: ubuntu-latest
 
     steps:
