@@ -59,10 +59,8 @@ jobs:
             scp ${{ env.FORT_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} ${{ env.REMOTE_SERVER_USER }}@${{ env.REMOTE_SERVER_IP }}:${{ env.REMOTE_SERVER_WWW_DIR }}
             ssh ${{ env.REMOTE_SERVER_USER }}@${{ env.REMOTE_SERVER_IP }} "
               source ~/.nvm/nvm.sh
-              source ~/.bashrc
-              codes
-              nvm use
               cd ${{ env.REMOTE_SERVER_WWW_DIR }}
+              nvm use
               tar -xvf ${{ env.TAR_NAME }}
               pm2 reload ${{ env.PM2_SERVER_NAME }}
             "
