@@ -49,8 +49,11 @@ jobs:
           script: |
             scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
             ssh user00@172.27.37.41 "
+              source ~/.nvm/nvm.sh
               source ~/.bashrc
+              nvm use
               cd ${{ env.REMOTE_SERVER_WWW_DIR }}
               tar -xvf ${{ env.TAR_NAME }}
+              node -v
               pm2 reload ${{ env.PM2_SERVER_NAME }}
             "
