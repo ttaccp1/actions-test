@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
           source: "${{ env.TAR_NAME }}"
-          target: "${{ REMOTE_SERVER_WWW_DIR }}"
+          target: "${{ env.REMOTE_SERVER_WWW_DIR }}"
 
       - name: Unarchive the tarball on the remote server
         uses: appleboy/ssh-action@v1.0.3
@@ -47,6 +47,6 @@ jobs:
           username: ${{ secrets.REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
           script: |
-            cd ${{ REMOTE_SERVER_WWW_DIR }}
+            cd ${{ env.REMOTE_SERVER_WWW_DIR }}
             tar -xvf ${{ env.TAR_NAME }}
-            pm2 reload ${{ PM2_SERVER_NAME }}
+            pm2 reload ${{ env.PM2_SERVER_NAME }}
