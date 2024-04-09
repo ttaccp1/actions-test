@@ -34,3 +34,13 @@ jobs:
           key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
           source: "rebuild.tar"
           target: "/var/www"
+
+      - name: Unarchive the tarball on the remote server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_SERVER_IP }}
+          username: ${{ secrets.REMOTE_SERVER_USERNAME }}
+          key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
+          script: |
+            cd /var/www
+            tar -xvf rebuild.tar
