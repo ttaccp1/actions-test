@@ -49,19 +49,8 @@ jobs:
           script: |
             scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
             ssh user00@172.27.37.41 "
-              codes
-              pwd
+              source ~/.bashrc
+              cd ${{ env.REMOTE_SERVER_WWW_DIR }}
+              tar -xvf ${{ env.TAR_NAME }}
+              pm2 reload ${{ env.PM2_SERVER_NAME }}
             "
-      # - name: Unarchive the tarball on the remote server
-      #   uses: appleboy/ssh-action@v1.0.3
-      #   with:
-      #     host: ${{ secrets.HG_REMOTE_SERVER_IP }}
-      #     username: ${{ secrets.HG_REMOTE_SERVER_USERNAME }}
-      #     key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
-      #     script: |
-      #       scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
-      #       ssh user00@172.27.37.41 "
-      #         cd ${{ env.REMOTE_SERVER_WWW_DIR }}
-      #         tar -xvf ${{ env.TAR_NAME }}
-      #         pm2 reload ${{ env.PM2_SERVER_NAME }}
-      #       "
