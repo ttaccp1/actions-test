@@ -5,8 +5,17 @@ on:
     branches: [scp-tar]
 
 env:
+  # 打包的文件名
   TAR_NAME: rebuild.tar
-  REMOTE_SERVER_WWW_DIR: /var/tmp
+  # SCP到堡垒机服务器的目录
+  FORT_SERVER_WWW_DIR: /var/tmp
+  # 真实服务器的用户名
+  REMOTE_SERVER_USER: user00
+  # 真实服务器的IP
+  REMOTE_SERVER_IP: 172.27.37.41
+  # 最终解压到真实服务器的目录
+  REMOTE_SERVER_WWW_DIR: /mnt/www/oneroof-rebuild
+  # PM2服务器的名称
   PM2_SERVER_NAME: all
 
 jobs:
@@ -38,7 +47,7 @@ jobs:
           username: ${{ secrets.HG_REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
           source: "${{ env.TAR_NAME }}"
-          target: "${{ env.REMOTE_SERVER_WWW_DIR }}"
+          target: "${{ env.FORT_SERVER_WWW_DIR }}"
 
       - name: Unarchive the tarball on the remote server
         uses: appleboy/ssh-action@v1.0.3
@@ -47,13 +56,13 @@ jobs:
           username: ${{ secrets.HG_REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
           script: |
-            scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
-            ssh user00@172.27.37.41 "
+            scp ${{ env.FORT_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} ${{ env.REMOTE_SERVER_USER }}@${{ env.REMOTE_SERVER_IP }}:${{ env.REMOTE_SERVER_WWW_DIR }}
+            ssh ${{ env.REMOTE_SERVER_USER }}@${{ env.REMOTE_SERVER_IP }} "
               source ~/.nvm/nvm.sh
               source ~/.bashrc
+              codes
               nvm use
               cd ${{ env.REMOTE_SERVER_WWW_DIR }}
               tar -xvf ${{ env.TAR_NAME }}
-              node -v
               pm2 reload ${{ env.PM2_SERVER_NAME }}
             "
