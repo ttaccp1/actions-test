@@ -49,6 +49,10 @@ jobs:
           source: "${{ env.TAR_NAME }}"
           target: "${{ env.FORT_SERVER_WWW_DIR }}"
 
+  untar-and-reload:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Unarchive the tarball on the remote server
         uses: appleboy/ssh-action@v1.0.3
         with:
