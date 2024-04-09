@@ -49,6 +49,7 @@ jobs:
           script: |
             scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
             su jump
+            sleep 5
             echo t2or1
             cd ${{ env.REMOTE_SERVER_WWW_DIR }}
             tar -xvf ${{ env.TAR_NAME }}
