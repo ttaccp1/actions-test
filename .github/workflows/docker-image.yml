@@ -4,6 +4,11 @@ on:
   push:
     branches: [scp-tar]
 
+env:
+  TAR_NAME: rebuild1.tar
+  REMOTE_SERVER_WWW_DIR: /var/www
+  PM2_SERVER_NAME: all
+
 jobs:
   build-and-scp:
     runs-on: ubuntu-latest
@@ -24,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Tar .next directory
-        run: tar -cvf rebuild.tar .next/
+        run: tar -cvf ${{ env.TAR_NAME }} .next/
 
       - name: Copy the .next tarball to the remote server
         uses: appleboy/scp-action@v0.1.7
@@ -32,8 +37,8 @@ jobs:
           host: ${{ secrets.REMOTE_SERVER_IP }}
           username: ${{ secrets.REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
-          source: "rebuild.tar"
-          target: "/var/www"
+          source: "${{ env.TAR_NAME }}"
+          target: "${{ REMOTE_SERVER_WWW_DIR }}"
 
       - name: Unarchive the tarball on the remote server
         uses: appleboy/ssh-action@v1.0.3
@@ -42,6 +47,6 @@ jobs:
           username: ${{ secrets.REMOTE_SERVER_USERNAME }}
           key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
           script: |
-            cd /var/www
-            tar -xvf rebuild.tar
-            pm2 reload all
+            cd ${{ REMOTE_SERVER_WWW_DIR }}
+            tar -xvf ${{ env.TAR_NAME }}
+            pm2 reload ${{ PM2_SERVER_NAME }}
