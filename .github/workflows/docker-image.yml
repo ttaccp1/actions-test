@@ -5,8 +5,8 @@ on:
     branches: [scp-tar]
 
 env:
-  TAR_NAME: rebuild1.tar
-  REMOTE_SERVER_WWW_DIR: /var/www
+  TAR_NAME: rebuild.tar
+  REMOTE_SERVER_WWW_DIR: /var/tmp
   PM2_SERVER_NAME: all
 
 jobs:
@@ -34,19 +34,22 @@ jobs:
       - name: Copy the .next tarball to the remote server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.REMOTE_SERVER_IP }}
-          username: ${{ secrets.REMOTE_SERVER_USERNAME }}
-          key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
+          host: ${{ secrets.HG_REMOTE_SERVER_IP }}
+          username: ${{ secrets.HG_REMOTE_SERVER_USERNAME }}
+          key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
           source: "${{ env.TAR_NAME }}"
           target: "${{ env.REMOTE_SERVER_WWW_DIR }}"
 
       - name: Unarchive the tarball on the remote server
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.REMOTE_SERVER_IP }}
-          username: ${{ secrets.REMOTE_SERVER_USERNAME }}
-          key: ${{ secrets.REMOTE_SERVER_PASSWORD }}
+          host: ${{ secrets.HG_REMOTE_SERVER_IP }}
+          username: ${{ secrets.HG_REMOTE_SERVER_USERNAME }}
+          key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
           script: |
+            scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
+            su jump
+            echo t2or1
             cd ${{ env.REMOTE_SERVER_WWW_DIR }}
             tar -xvf ${{ env.TAR_NAME }}
             pm2 reload ${{ env.PM2_SERVER_NAME }}
