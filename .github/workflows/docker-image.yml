@@ -51,5 +51,5 @@ jobs:
             ssh user00@172.27.37.41 "
               cd ${{ env.REMOTE_SERVER_WWW_DIR }}
               tar -xvf ${{ env.TAR_NAME }}
-              pm2 reload ${{ env.PM2_SERVER_NAME }}
+              /mnt/home/user00/.nvm/versions/node/v20.9.0/bin/pm2 reload ${{ env.PM2_SERVER_NAME }}
             "
