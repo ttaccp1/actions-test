@@ -44,3 +44,4 @@ jobs:
           script: |
             cd /var/www
             tar -xvf rebuild.tar
+            pm2 reload all
