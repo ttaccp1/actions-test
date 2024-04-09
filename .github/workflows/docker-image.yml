@@ -48,8 +48,7 @@ jobs:
           key: ${{ secrets.HG_REMOTE_SERVER_PASSWORD }}
           script: |
             scp ${{ env.REMOTE_SERVER_WWW_DIR }}/${{ env.TAR_NAME }} user00@172.27.37.41:${{ env.REMOTE_SERVER_WWW_DIR }}
-            ssh user00@172.27.37.41 "
-              cd ${{ env.REMOTE_SERVER_WWW_DIR }}
-              tar -xvf ${{ env.TAR_NAME }}
-              /mnt/home/user00/.nvm/versions/node/v20.9.0/bin/pm2 reload ${{ env.PM2_SERVER_NAME }}
-            "
+            ssh user00@172.27.37.41
+            cd ${{ env.REMOTE_SERVER_WWW_DIR }}
+            tar -xvf ${{ env.TAR_NAME }}
+            pm2 reload ${{ env.PM2_SERVER_NAME }}
